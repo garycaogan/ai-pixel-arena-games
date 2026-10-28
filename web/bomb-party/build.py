@@ -30,7 +30,7 @@ CAST = [
     {"slug": "baseline", "name": "陪练", "color": "#7D838F", "source": ROOT / "games/bomb_party/baseline.py"},
 ]
 # Replace these two placeholders before publication. No platform access at build time.
-LINKS = {"video": "https://space.bilibili.com/351426642", "source": "#source-coming-soon"}   # Gary 点头推送开源仓库后填 https://github.com/garycaogan/ai-pixel-arena-games
+LINKS = {"video": "https://space.bilibili.com/351426642", "source": "https://github.com/garycaogan/ai-pixel-arena-games"}
 
 
 def build(out=HERE / "dist", pyodide=PYODIDE_DIR):
