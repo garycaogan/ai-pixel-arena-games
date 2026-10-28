@@ -1,0 +1,83 @@
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; color: #eef3f8; background: #101624; --green: #b5f36b; --line: #344052; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; min-width: 280px; background: radial-gradient(ellipse at 80% 0%, #20383b 0, transparent 60%); }
+button, select, input { font: inherit; }
+button, select { color: inherit; background: #243043; border: 1px solid var(--line); border-radius: 10px; min-height: 44px; padding: 10px 15px; }
+button { cursor: pointer; touch-action: manipulation; font-weight: 650; }
+button:hover { border-color: var(--green); }
+button:disabled { opacity: .55; cursor: wait; }
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #b5f36b; outline-offset: 3px; }
+a { color: #c2d2e6; text-underline-offset: 4px; }
+header { max-width: 1440px; padding: 16px 24px; margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.brand { color: #f1f6f7; font-weight: 800; text-decoration: none; letter-spacing: 1px; }
+.brand span { margin-left: 8px; font-size: 12px; color: #aebbc9; }
+main { max-width: 1440px; padding: 10px 24px; margin: auto; }
+.panel { border: 1px solid var(--line); background: #182131; border-radius: 24px; box-shadow: 0 20px 70px #0004; }
+#setup { max-width: 760px; margin: 12px auto 24px; padding: 32px 40px; }
+.eyebrow { font-size: 12px; letter-spacing: 2px; color: #a6c4ba; margin: 0 0 10px; }
+h1 { margin: 0; font-size: clamp(44px, 7vw, 72px); letter-spacing: -3px; font-weight: 950; }
+h1 span { color: var(--green); } h1 i { color: #ffcc67; font-size: .6em; font-style: normal; margin-left: 18px; }
+.intro { font-size: 20px; color: #cbd6df; margin: 10px 0 22px; }
+.rules { padding-left: 22px; color: #cbd5e1; font-size: 14px; line-height: 1.8; } .rules li { padding-left: 5px; margin: 6px 0; }
+.ai-note { color: #d7eead; font-size: 13px; padding: 10px 0; }
+fieldset { border: 0; padding: 0; margin: 0 0 18px; } legend { color: #a9b9ca; font-size: 13px; margin-bottom: 8px; }
+.mode { display: flex; gap: 12px; } .mode label { padding: 12px 18px; border: 1px solid #445368; border-radius: 12px; flex: 1; cursor: pointer; }
+.mode label:has(input:checked) { border-color: var(--green); background: #b5f36b13; }
+input[type=radio] { accent-color: var(--green); }
+.setting-row { display: flex; gap: 14px; } .setting-row label { flex: 1; color: #a9b9ca; font-size: 13px; min-width: 0; }
+select { width: 100%; margin-top: 7px; }
+.opponent-heading { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 10px; font-size: 14px; color: #bdcbd8; }
+#random { font-size: 12px; padding: 7px 12px; }
+.opponents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } .opponents.watch { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.opponents label { font-size: 12px; color: #a9b9ca; } .opponents select { border-left: 4px solid var(--seat-color); }
+.primary { background: var(--green); color: #172218; border-color: var(--green); font-weight: 800; }
+#start { width: 100%; margin-top: 24px; min-height: 54px; font-size: 18px; }
+#loading { font-size: 12px; color: #b9d6c6; min-height: 18px; }
+.keyboard-hint { font-size: 12px; color: #95a8bb; line-height: 1.7; }
+.game-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 14px; min-height: 44px; }
+.game-toolbar div { display: flex; gap: 8px; flex-shrink: 0; }
+.arena { position: relative; max-width: min(100%, calc((100dvh - 180px) * 16 / 9)); margin: auto; }
+.canvas-window { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px; border: 1px solid #3c4b47; background: #131e28; position: relative; }
+canvas { width: 100%; height: auto; display: block; }
+.controls { display: none; align-items: center; justify-content: space-between; padding: 16px 10px; gap: 20px; }
+.dpad { display: grid; grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(3, 48px); gap: 4px; }
+.dpad [data-action=up] { grid-column: 2; } .dpad [data-action=left] { grid-column: 1; grid-row: 2; } .dpad span { grid-column: 2; grid-row: 2; text-align: center; align-self: center; color: #58716d; }
+.dpad [data-action=right] { grid-column: 3; grid-row: 2; } .dpad [data-action=down] { grid-column: 2; grid-row: 3; }
+.controls button { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; background: #26384cef; box-shadow: 0 3px 0 #0a101c; }
+.controls button.pressed { background: #698951; transform: translateY(2px); }
+.bomb-button { border: 2px solid #f6a35a; color: #ffe0a6; width: 112px; height: 112px; border-radius: 50%; font-size: 25px; }
+.bomb-button small { display: block; font-size: 10px; color: #d4b99b; margin-top: 4px; }
+.pause-overlay { position: absolute; inset: 0; background: #111c2bd9; display: grid; place-items: center; font-size: 36px; border-radius: 14px; pointer-events: none; }
+.result { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(90%, 510px); padding: 26px; background: #172131f5; max-height: 95%; overflow: auto; }
+.result h2 { font-size: 32px; margin: 0 0 18px; color: var(--green); } .table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; white-space: nowrap; } th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #344052; } th { color: #9dafc0; font-weight: 500; font-size: 12px; }
+.result-actions { display: flex; gap: 12px; margin-top: 18px; } .result-actions button { flex: 1; } #result-detail { color: #adbecc; font-size: 13px; line-height: 1.7; }
+#error { padding: 16px; border: 1px solid #ff8c73; border-radius: 12px; color: #ffb8a5; white-space: pre-wrap; }
+footer { max-width: 1440px; padding: 16px 24px 24px; margin: auto; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-size: 12px; color: #95a5b7; } footer nav { display: flex; gap: 20px; } .placeholder-note { width: 100%; text-align: right; color: #7e8b9a; }
+body.playing { overscroll-behavior: none; touch-action: none; overflow: hidden; user-select: none; -webkit-user-select: none; }
+body.playing main, body.playing header { touch-action: none; }
+@media (pointer: coarse), (hover: none) { .controls { display: flex; } }
+@media (max-width: 600px) {
+  header { padding: 12px; } main { padding: 0 12px; } #setup { padding: 24px 20px; border-radius: 18px; } .brand span { display: none; }
+  .mode label { padding: 12px; } .opponents, .opponents.watch { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer { padding: 20px 12px; } .placeholder-note { text-align: left; } .result { padding: 18px; } .result h2 { font-size: 26px; }
+}
+@media (orientation: portrait) and (max-width: 900px) {
+  body.playing header { padding: 4px 12px; } body.playing header button { min-height: 36px; padding: 6px 12px; }
+  body.playing .game-toolbar { margin-bottom: 6px; font-size: 12px; } body.playing footer { display: none; }
+  .arena { max-width: min(100%, calc((100dvh - 290px) * 1.05)); }
+  .canvas-window { aspect-ratio: 1056 / 1080; }
+  canvas { width: 181.8182%; max-width: none; margin-left: -40.9091%; }
+  .controls { padding: 10px 0; } .dpad { grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(3, 42px); }
+  .bomb-button { width: 96px; height: 96px; font-size: 23px; }
+  .result { top: 10px; transform: translateX(-50%); max-height: calc(100% - 20px); }
+}
+@media (orientation: landscape) and (pointer: coarse), (orientation: landscape) and (hover: none) {
+  body.playing header, body.playing footer, body.playing #game-hint { display: none; }
+  body.playing main { padding: 4px max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left)); }
+  .game-toolbar { margin-bottom: 4px; font-size: 12px; min-height: 36px; } .game-toolbar button { padding: 5px 10px; min-height: 36px; }
+  .arena { max-width: min(100%, calc((100dvh - 50px) * 16 / 9)); }
+  .controls { position: absolute; inset: auto 0 0; padding: 10px; pointer-events: none; } .controls button { pointer-events: auto; }
+  .dpad { grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 38px); } .bomb-button { width: 90px; height: 90px; font-size: 22px; }
+}

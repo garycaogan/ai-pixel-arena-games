@@ -1,0 +1,6 @@
+__pycache__/
+.DS_Store
+results/
+web/bomb-party/dist/
+web/bomb-party/pyodide-*/
+*.mp4

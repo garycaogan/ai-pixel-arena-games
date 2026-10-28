@@ -1,0 +1,32 @@
+{
+  "bots_dir": "bots/bomb_party",
+  "duel": {
+    "size": 13,
+    "max_turns": 270,
+    "games_per_pair": 2,
+    "bomb_fuse": 3,
+    "blast_radius": 2,
+    "bomb_limit": 1,
+    "max_radius": 8,
+    "max_bombs": 6,
+    "brick_density": 0.65,
+    "item_density": 0.4,
+    "crush_start": 80,
+    "crush_skip_initial_steel": true
+  },
+  "melee": {
+    "size": 13,
+    "max_turns": 270,
+    "games_per_round": "seats",
+    "seats_per_game": 4,
+    "bomb_fuse": 3,
+    "blast_radius": 2,
+    "bomb_limit": 1,
+    "max_radius": 8,
+    "max_bombs": 6,
+    "brick_density": 0.65,
+    "item_density": 0.4,
+    "crush_start": 80,
+    "crush_skip_initial_steel": true
+  }
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101624">
+  <meta name="description" content="炸砖、捡道具、躲炸弹！和 AI 写的程序来一局炸弹派对。">
+  <title>炸弹派对 · AI 像素擂台小游戏</title>
+  <link rel="stylesheet" href="style.css?v=__VERSION__">
+</head>
+<body>
+  <header><a class="brand" href="./">AI 像素擂台 <span>小游戏</span></a><button id="mute" type="button" aria-pressed="false">声音：开</button></header>
+  <main>
+    <section id="setup" class="panel">
+      <p class="eyebrow">BOMB PARTY · 在浏览器里来一局</p>
+      <h1>炸弹<span>派对</span><i aria-hidden="true">✦</i></h1>
+      <p class="intro">炸开一条路，活到最后。</p>
+      <ol class="rules">
+        <li>每回合走一格，放弹时要站住；炸弹三回合后十字爆炸，记得拐弯躲开。</li>
+        <li>炸碎木箱找道具：加火力、加弹数，还能学会踢弹；钢墙炸不动。</li>
+        <li>学会踢弹后，朝炸弹走就能踢出去；它会滑到撞上障碍，也会照常爆炸。</li>
+        <li>第 80 回合开始落墙，红框会提前预告；活得越久名次越高，同时出局就比击杀。</li>
+      </ol>
+      <p class="ai-note">对手是 AI 写的程序，就在你的浏览器里运行。</p>
+      <form id="settings">
+        <fieldset class="mode"><legend>怎么开场</legend>
+          <label><input type="radio" name="mode" value="play" checked> 我来玩</label>
+          <label><input type="radio" name="mode" value="watch"> 看 AI 打</label>
+        </fieldset>
+        <div class="setting-row">
+          <label id="color-label">你的颜色 <select id="color"><option value="#1FC77E">薄荷绿</option><option value="#FF9838">橘子橙</option><option value="#4567FF">电光蓝</option><option value="#F05BC9">莓果粉</option><option value="#F2F2F2">月光白</option></select></label>
+          <label>回合节拍 <select id="speed"><option value="300">慢 · 300 毫秒</option><option value="220" selected>中 · 220 毫秒</option><option value="160">快 · 160 毫秒</option></select></label>
+        </div>
+        <div class="opponent-heading"><span id="opponent-title">挑选三个对手</span><button id="random" type="button">随机三个</button></div>
+        <div id="opponents" class="opponents"></div>
+        <button class="primary" id="start" type="submit" disabled>准备中…</button>
+      </form>
+      <p id="loading" role="status" aria-live="polite">正在准备场地…</p>
+      <p class="keyboard-hint">电脑：方向键 / WASD 移动，空格 / J 放弹。手机：按住方向，点右侧放弹。</p>
+    </section>
+    <section id="game" hidden aria-label="炸弹派对游戏">
+      <div class="game-toolbar"><span id="game-status" role="status" aria-live="polite">开场！</span><div><button id="pause" type="button">暂停</button><button id="leave" type="button">换对手</button></div></div>
+      <div class="arena">
+        <div class="canvas-window"><canvas id="canvas" width="1920" height="1080" aria-label="派对场地，使用方向键或屏幕按钮操作"></canvas></div>
+        <div id="controls" class="controls" hidden>
+          <div class="dpad" aria-label="方向键"><button data-action="up" aria-label="向上">▲</button><button data-action="left" aria-label="向左">◀</button><span aria-hidden="true">✦</span><button data-action="right" aria-label="向右">▶</button><button data-action="down" aria-label="向下">▼</button></div>
+          <button data-action="bomb" class="bomb-button" aria-label="放置炸弹">放弹<small>J / 空格</small></button>
+        </div>
+        <div id="pause-overlay" class="pause-overlay" hidden>已暂停</div>
+        <section id="result" class="result panel" hidden aria-labelledby="result-title">
+          <p class="eyebrow">这一局打得怎么样？</p><h2 id="result-title">派对结束</h2>
+          <div class="table-scroll"><table><thead><tr><th>名次</th><th>选手</th><th>存活回合</th><th>击杀</th></tr></thead><tbody id="scores"></tbody></table></div>
+          <p id="result-detail"></p><div class="result-actions"><button id="again" class="primary" type="button">再来一局</button><button id="change" type="button">换对手</button></div>
+        </section>
+      </div>
+      <p id="game-hint" class="keyboard-hint"></p>
+    </section>
+    <p id="error" role="alert" hidden></p>
+  </main>
+  <footer><span>AI 像素擂台 · 炸弹派对</span><nav><a href="__LINK_VIDEO__" target="_blank" rel="noopener">看 AI 对打的视频</a><a href="__LINK_SOURCE__" target="_blank" rel="noopener">GitHub 源码</a></nav><span class="placeholder-note">视频和源码链接准备中</span></footer>
+  <script src="render-bomber.js?v=__VERSION__"></script>
+  <script src="input.js?v=__VERSION__"></script>
+  <script src="audio.js?v=__VERSION__"></script>
+  <script src="app.js?v=__VERSION__"></script>
+</body>
+</html>
