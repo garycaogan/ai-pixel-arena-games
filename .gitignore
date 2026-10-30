@@ -4,3 +4,5 @@ results/
 web/bomb-party/dist/
 web/bomb-party/pyodide-*/
 *.mp4
+web/pixel-brawl/dist/
+web/pixel-brawl/pyodide-*/
