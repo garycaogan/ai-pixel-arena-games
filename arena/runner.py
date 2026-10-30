@@ -24,9 +24,24 @@ def reply(obj):
     proto.flush()
 
 
+class _SeededRandom(random.Random):
+    """程序自己 new 的 random.Random() 不带种子时，也从这一局的种子派生，同一种子能原样复现（像素拳斗 Grok 10/30）。"""
+    _base = 0
+    _count = 0
+
+    def __init__(self, x=None):
+        if x is None:
+            _SeededRandom._count += 1
+            x = (_SeededRandom._base, _SeededRandom._count)
+            x = hash(x) & 0xFFFFFFFF
+        super().__init__(x)
+
+
 def load(path, seed):
     global mod
     random.seed(seed)
+    _SeededRandom._base, _SeededRandom._count = seed, 0
+    random.Random = _SeededRandom
     src = open(path, encoding="utf-8").read()
     m = types.ModuleType("bot")
     m.__file__ = path

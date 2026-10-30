@@ -2,7 +2,7 @@
 
 10 个 AI 拿同一份题，各自写一个游戏程序，再让这些程序在同一个赛场里对打。这个仓库放的是能玩、能复现的部分：游戏引擎、各家 AI 交上来的程序、网页版和美术。比赛过程做成了视频，在 B 站「AI 像素擂台」。
 
-在线玩：<https://lab.ytdeepsea.com/games/>
+在线玩：<https://lab.ytdeepsea.com/games/>（现在有两款：炸弹派对、像素拳斗）
 
 ## 炸弹派对
 
@@ -47,6 +47,61 @@
 | Grok 4.7 | 小组未出线 | C 组 0 分（4 4 4 4） | — |
 
 16 局一共 48 次出局：28 次是被自己的炸弹炸死，14 次被墙压死，被对手炸死的只有 6 次。
+
+## 像素拳斗
+
+第二款是像素拳斗：1 对 1 的 2D 格斗，30 帧一秒，两边每帧同时出一招，你看到的对手永远是 6 帧（0.2 秒）以前的样子。四个原创角色：均衡的阿烈、投技的铁山、速度的飞燕、远程的雷娜，招式有轻拳、重拳、脚、扫腿、投、必杀技、对空技和超必杀。三局两胜，一局 45 秒，打空血条 K.O.，到时比剩余血量。
+
+网页版 <https://lab.ytdeepsea.com/games/pixel-brawl/> 可以选角色和这些 AI 写的程序打，键盘和手机都能玩，也可以挑两家看它们互打。
+
+### 这 10 个程序是怎么写出来的
+
+写法和炸弹派对一样：同一份题（`games/brawl/BRIEF.md`），断网工位 45 分钟，能读裁判源码、跟陪练试打、看表，20 分钟后才能交卷，算最后一次。角色由程序在第 1 帧自己选。
+
+| 程序 | 模型 | 选角 | 交卷 | 试打局数 |
+|---|---|---|---|---|
+| `opus.py` | Claude Opus 5.5 | 铁山 | 3 版，最后一版第 21.9 分钟 | 108 |
+| `astra.py` | GPT-6 Astra | 铁山 | 3 版，最后一版第 42.3 分钟 | 157 |
+| `gemini.py` | Gemini 4 Argon | 雷娜 | 2 版，最后一版第 33.9 分钟 | 32 |
+| `deepseek.py` | DeepSeek V4.1 Flash | 阿烈 | 没交上，预算到了，收的是工位里当时的程序 | 8 |
+| `kimi.py` | Kimi K3 | 铁山 | 2 版，最后一版第 24.5 分钟（重开的一场，见下） | 132 |
+| `doubao.py` | 豆包 Seed 2.0 Pro | 雷娜 | 4 版，最后一版第 26.1 分钟 | 180 |
+| `qwen.py` | Qwen 3.8 Max | 铁山 | 2 版，最后一版第 43.9 分钟 | 3 |
+| `glm.py` | GLM 5.3 | 铁山 | 6 版，最后一版第 40.2 分钟 | 598 |
+| `minimax.py` | MiniMax M3 | 阿烈 | 3 版，最后一版第 43.1 分钟 | 19 |
+| `grok.py` | Grok 4.7 | 飞燕 | 2 版，最后一版第 32.7 分钟 | 14 |
+
+要说明的事：第一次开工位时，Kimi 的接口在每个流式片段里都重发工具名，我们的工位程序把它们拼成了 `runrunrun…`，Kimi 92 次命令里 83 次被当成不认识的工具退回，没法试打也没法修程序。修好以后让 Kimi 单独重开了一场，同一份题、同样的花费上限，比赛用的是这一场交的程序。另外 Grok 的程序自己 new 了一个不带种子的 `random.Random()`，每次跑结果都不一样；裁判外壳现在让这种随机数也从这一局的种子派生，杯赛能原样复现。
+
+### 成绩
+
+10 家抽签分两组，组内单循环、每对一场三局两胜，胜 3 分；各组前两名交叉打半决赛，季军赛一场，决赛三场两胜。`tools/cup_brawl.py --bots-dir bots/brawl` 能原样复现。
+
+| 选手 | 名次 | 小组赛 | 淘汰赛 |
+|---|---|---|---|
+| GPT-6 Astra | 冠军 | A 组 9 分（3 胜 1 负） | 半决赛 2:0 Grok，决赛 2:1、2:0 Claude |
+| Claude Opus 5.5 | 亚军 | A 组 12 分（4 胜） | 半决赛 2:0 MiniMax |
+| Grok 4.7 | 季军 | B 组 12 分（4 胜） | 季军赛 2:0 MiniMax |
+| MiniMax M3 | 第四 | B 组 6 分（2 胜 2 负） | |
+| Gemini 4 Argon | 小组未出线 | A 组 6 分 | |
+| Qwen 3.8 Max | 小组未出线 | B 组 6 分 | |
+| GLM 5.3 | 小组未出线 | A 组 3 分 | |
+| DeepSeek V4.1 Flash | 小组未出线 | B 组 3 分 | |
+| 豆包 Seed 2.0 Pro | 小组未出线 | B 组 3 分 | |
+| Kimi K3 | 小组未出线 | A 组 0 分 | |
+
+10 家里 5 家选了铁山。决赛是铁山打铁山，5 局都是被 640 伤害的超必杀投结束的。
+
+```sh
+# 打一场：两个程序 1 对 1
+python3 tools/play_brawl.py astra opus --export fight.json
+# 按视频里的赛制打一遍
+python3 tools/cup_brawl.py --bots-dir bots/brawl
+# 引擎测试
+python3 -m unittest games.brawl.tests.test_engine
+```
+
+让你的 AI 写一个：把 `games/brawl/PROMPT.md` 交给它，让它写只用标准库的 `bot.py`，实现 `decide(state)`，然后 `python3 tools/play_brawl.py path/to/bot.py astra`。网页版源码在 `web/pixel-brawl/`，画法 `games/brawl/render.js`，角色和场地是 GPT Image 生成的，提示词和切图脚本在 `games/brawl/art/`。
 
 ## 在本地跑
 
@@ -102,6 +157,9 @@ arena/              裁判：子进程跑程序、限时、按回合收动作
 tools/              play.py 打一局，cup.py 小组赛加决赛
 web/bomb-party/     网页版
 art/bomb-party/     GPT Image 生成的精灵图、切图脚本、渲染器、提示词
+games/brawl/        像素拳斗：引擎、原题、陪练、演示、测试、渲染、美术（art/）
+bots/brawl/         像素拳斗 10 家 AI 的程序和 notes/
+web/pixel-brawl/    像素拳斗网页版
 ```
 
 ## 美术
@@ -110,4 +168,4 @@ art/bomb-party/     GPT Image 生成的精灵图、切图脚本、渲染器、�
 
 ## 许可
 
-MIT，见 `LICENSE`。「炸弹派对」是这个项目自己的游戏，和任何商业游戏没有关系。各家 AI 的名字和商标归各自公司所有。
+MIT，见 `LICENSE`。「炸弹派对」「像素拳斗」是这个项目自己的游戏，和任何商业游戏没有关系。各家 AI 的名字和商标归各自公司所有。

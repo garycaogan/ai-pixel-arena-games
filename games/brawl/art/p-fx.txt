@@ -1,0 +1,4 @@
+Pixel art special effect sprites for an ORIGINAL 2D arcade fighting game, 1990s arcade style, chunky clean pixels, 1-pixel dark outline only where needed. Six effect sprites in one horizontal row with generous empty space between them, all the same size, each flying to the right:
+1, 2, 3: an orange and white glowing fireball-like ki energy ball with a short flame tail trailing to the left, three animation frames with the flames flickering slightly differently.
+4, 5, 6: a violet and white crackling electric energy orb with small lightning arcs around it and a short tail to the left, three animation frames with the lightning arcs in different positions.
+No characters, no hands. Background: flat solid pure magenta #FF00FF everywhere, no floor, no shadows, no glow spilling onto the background, no text, no numbers, no frame borders.

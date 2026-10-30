@@ -1,0 +1,5 @@
+{
+  "bots_dir": "bots/brawl",
+  "duel": {"round_seconds": 45, "rounds_to_win": 2, "max_rounds": 5, "games_per_pair": 2},
+  "melee": {"round_seconds": 45, "rounds_to_win": 2, "max_rounds": 5, "games_per_round": 0, "seats_per_game": 2}
+}

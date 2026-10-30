@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#140d22">
+  <meta name="description" content="1 对 1 像素格斗：挑一个角色，和 AI 写的程序打三局两胜。">
+  <title>像素拳斗 · AI 像素擂台小游戏</title>
+  <link rel="stylesheet" href="style.css?v=__VERSION__">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="../">AI 像素擂台 <span>游戏厅</span></a><button id="mute" class="ghost" type="button" aria-pressed="false">声音：开</button></header>
+  <main>
+    <section id="setup">
+      <div class="hero">
+        <canvas id="preview" width="960" height="540" aria-hidden="true"></canvas>
+        <div class="hero-copy">
+          <p class="eyebrow">PIXEL BRAWL · 第 9 集</p>
+          <h1>像素<span>拳斗</span></h1>
+          <p class="intro">黄昏渔港，1 对 1。三局两胜，打空血条就 K.O.。</p>
+        </div>
+        <div class="vs" aria-hidden="true">VS</div>
+      </div>
+
+      <form id="settings" class="panel">
+        <fieldset class="mode"><legend class="sr">怎么开场</legend>
+          <label><input type="radio" name="mode" value="play" checked><span><b>我来打</b><small>选个角色，挑一家 AI</small></span></label>
+          <label><input type="radio" name="mode" value="watch"><span><b>看 AI 对打</b><small>挑两家，看谁更会打</small></span></label>
+        </fieldset>
+
+        <div id="pick-block">
+          <h2 class="step"><i>1</i>选你的角色</h2>
+          <div id="roster" class="roster" role="radiogroup" aria-label="选角色"></div>
+        </div>
+
+        <div class="opp-block">
+          <h2 class="step"><i id="opp-step">2</i><span id="opp-title">挑一家 AI 当对手</span><button id="random" class="ghost small" type="button">随机</button></h2>
+          <p class="note">AI 开局自己选角色，你看不到它选什么，开打才知道。</p>
+          <div id="seat-a" class="chips" role="radiogroup" aria-label="对手"></div>
+          <div id="seat-b-wrap" hidden><p class="seat-label">右边</p><div id="seat-b" class="chips" role="radiogroup" aria-label="右边的 AI"></div></div>
+        </div>
+
+        <button class="primary" id="start" type="submit" disabled>准备中…</button>
+        <p id="loading" role="status" aria-live="polite">正在准备场地…</p>
+      </form>
+
+      <section class="panel how">
+        <div>
+          <h2>怎么打</h2>
+          <ul class="keys">
+            <li><span><kbd>A</kbd><kbd>D</kbd></span>左右走，往后走就是站防</li>
+            <li><span><kbd>W</kbd></span>跳，按住方向斜跳</li>
+            <li><span><kbd>S</kbd></span>蹲，后下是蹲防（挡扫腿）</li>
+            <li><span><kbd>D</kbd><kbd>D</kbd></span>连按两下冲刺，往后是后撤步</li>
+            <li><span><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd></span>轻拳 · 重拳 · 脚</li>
+            <li><span><kbd>U</kbd><kbd>I</kbd></span>扫腿 · 投</li>
+            <li><span><kbd>空格</kbd><kbd>O</kbd></span>必杀技 · 对空技</li>
+            <li><span><kbd>P</kbd></span>超必杀（攒满一格气）</li>
+          </ul>
+          <p class="note kb-note">方向键也能走。手机上左边摇杆、右边八个键。</p>
+          <p class="note touch-note">左边摇杆：左右走，往后拉是防御，往下蹲，往上跳；同一方向快拉两下冲刺。右边八个键出招，打中轻拳、重拳马上按必杀能连上。</p>
+        </div>
+        <div>
+          <h2>规则</h2>
+          <ol class="rules">
+            <li>站防挡拳脚和跳攻，蹲防挡扫腿；投防不住。</li>
+            <li>轻拳、重拳打中能马上接必杀，连得越长伤害越低。</li>
+            <li>一直防会破防；对空技和超必杀开头无敌。</li>
+            <li>每局 45 秒，到时比剩余血量。AI 看你晚 0.2 秒。</li>
+          </ol>
+        </div>
+      </section>
+    </section>
+
+    <section id="game" hidden aria-label="像素拳斗对局">
+      <div class="game-toolbar"><span id="game-status" role="status" aria-live="polite">开场！</span><div><button id="pause" type="button">暂停</button><button id="leave" type="button">换对手</button></div></div>
+      <div class="arena">
+        <div class="screen">
+          <canvas id="canvas" width="1920" height="1080" aria-label="对局画面"></canvas>
+          <div id="pause-overlay" class="overlay" hidden><p>已暂停</p><button id="resume" class="primary" type="button">继续</button></div>
+          <section id="result" class="overlay result" hidden aria-labelledby="result-title">
+            <div class="result-card">
+              <p class="eyebrow" id="result-eyebrow">比赛结束</p>
+              <h2 id="result-title">胜负已分</h2>
+              <p id="result-score" class="score"></p>
+              <table><thead><tr><th></th><th id="col-a"></th><th id="col-b"></th></tr></thead><tbody id="stats"></tbody></table>
+              <p id="result-detail"></p>
+              <div class="result-actions"><button id="again" class="primary" type="button">再来一局</button><button id="change" type="button">换对手</button></div>
+            </div>
+          </section>
+        </div>
+        <div id="controls" class="controls" hidden>
+          <div class="pad" data-pad aria-label="摇杆：按住拖动走、跳、蹲" data-dir="0,0"><i></i></div>
+          <div class="buttons">
+            <button data-btn="p" type="button">轻拳</button><button data-btn="h" type="button">重拳</button>
+            <button data-btn="k" type="button">脚</button><button data-btn="s" type="button">扫腿</button>
+            <button data-btn="t" type="button">投</button><button data-btn="z" type="button" class="sp">必杀</button>
+            <button data-btn="a" type="button" class="sp">对空</button><button data-btn="x" type="button" class="su">超必杀</button>
+          </div>
+        </div>
+      </div>
+      <p id="game-hint" class="hint">J 轻拳 · K 重拳 · L 脚 · U 扫腿 · I 投 · 空格 必杀 · O 对空 · P 超必杀 · 往后走是防御 · 连按两下冲刺</p>
+    </section>
+    <p id="error" role="alert" hidden></p>
+  </main>
+  <footer><span>AI 像素擂台 · 像素拳斗　对手是各家 AI 写的程序，就在你的浏览器里运行</span><nav><a href="__LINK_VIDEO__" target="_blank" rel="noopener">看 AI 对打的视频</a><a href="__LINK_SOURCE__" target="_blank" rel="noopener">GitHub 源码</a></nav></footer>
+  <script src="sprites.js?v=__VERSION__"></script>
+  <script src="render.js?v=__VERSION__"></script>
+  <script src="input.js?v=__VERSION__"></script>
+  <script src="audio.js?v=__VERSION__"></script>
+  <script src="app.js?v=__VERSION__"></script>
+</body>
+</html>
